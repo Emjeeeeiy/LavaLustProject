@@ -3,14 +3,9 @@ include APP_DIR . 'views/templates/header.php';
 ?>
 
 <body>
-    <div id="app">
-        <?php
-        include APP_DIR . 'views/templates/nav.php';
-        ?>
-           <?php
-        include APP_DIR . 'views/templates/sidenav.php';
-        ?>
-        <main class="mt-3 pt-3">
+    <div id="app" class="bg-dark h-100">
+        <?php include APP_DIR . 'views/templates/nav.php'; ?>
+        <main class="mt-3 pt-3 " style="height: 500px">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-8">
