@@ -64,20 +64,20 @@ class Product_Controller extends Controller
             $name = $_POST['name'];
             $price = $_POST['price'];
             $stock = $_POST['stock'];
-    
+
             // Perform validation (optional)
             if (empty($id) || empty($name) || empty($price) || empty($stock)) {
                 $this->call->view('pages/products/productslayout', ['error' => 'All fields are required']);
                 return;
             }
-    
+
             // Update the product in the database
             $this->db->table('products')->where('id', $id)->update([
                 'name' => $name,
                 'price' => $price,
                 'stock' => $stock,
             ]);
-    
+
             // Redirect to the product list after editing
             redirect('products');
         }

@@ -53,15 +53,20 @@
 
         /* Reduce button size */
         .btn-smaller {
-            font-size: 0.85rem; /* Smaller text size */
-            padding: 0.25rem 0.5rem; /* Smaller padding */
+            font-size: 0.85rem;
+            /* Smaller text size */
+            padding: 0.25rem 0.5rem;
+            /* Smaller padding */
         }
 
         /* Card table styling */
         .table-container {
-            max-height: 400px; /* Adjust the height as needed */
-            overflow-y: auto; /* Vertical scrolling */
-            overflow-x: auto; /* Horizontal scrolling */
+            max-height: 400px;
+            /* Adjust the height as needed */
+            overflow-y: auto;
+            /* Vertical scrolling */
+            overflow-x: auto;
+            /* Horizontal scrolling */
         }
     </style>
 </head>
@@ -76,7 +81,8 @@
                 </div>
                 <div class="col text-end">
                     <!-- Add Product Button triggers modal -->
-                    <button class="btn btn-primary btn-smaller btn-animate" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                    <button class="btn btn-primary btn-smaller btn-animate" data-bs-toggle="modal"
+                        data-bs-target="#addProductModal">
                         Add Product
                     </button>
                 </div>
@@ -115,11 +121,13 @@
                                                 data-bs-target="#editProductModal" data-id="<?= $product['id'] ?>"
                                                 data-name="<?= $product['name'] ?>" data-price="<?= $product['price'] ?>"
                                                 data-stock="<?= $product['stock'] ?>">Edit</button>
-                                            
+
                                             <!-- Delete Button -->
-                                            <form action="<?= site_url('products/deleteProduct') ?>" method="post" style="display:inline-block;">
+                                            <form action="<?= site_url('products/deleteProduct') ?>" method="post"
+                                                style="display:inline-block;">
                                                 <input type="hidden" name="id" value="<?= $product['id'] ?>">
-                                                <button type="submit" class="btn btn-danger btn-smaller" onclick="return confirm('Are you sure you want to delete this product?')">Delete</button>
+                                                <button type="submit" class="btn btn-danger btn-smaller"
+                                                    onclick="return confirm('Are you sure you want to delete this product?')">Delete</button>
                                             </form>
                                         </td>
                                     </tr>

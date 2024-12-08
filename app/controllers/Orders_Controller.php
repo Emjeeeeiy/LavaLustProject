@@ -16,14 +16,14 @@ class Orders_Controller extends Controller
         $this->call->model('Product_Model');
     }
 
-    public function index()
-    {
-        // Get all products
-        $products = $this->db->table('products')->get_all();
+    // public function index()
+    // {
+    //     // Get all products
+    //     $products = $this->db->table('products')->get_all();
 
-        // Pass products data to the view
-        $this->call->view('pages/orders/orderslayout', ['products' => $products]);
-    }
+    //     // Pass products data to the view
+    //     $this->call->view('pages/orders/orderslayout', ['products' => $products]);
+    // }
 
     // Function to handle adding a new product
     public function addProduct()

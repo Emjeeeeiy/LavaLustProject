@@ -48,7 +48,7 @@ $router->get('/home', 'Home');
 $router->get('/dashboard', 'Home::dashboard');
 $router->get('/products', 'Product_Controller');
 $router->get('/sales', 'Sales_Controller');
-$router->get('/orders', 'Orders_Controller');
+$router->get('/orders', 'Sales_Controller::orders');
 $router->get('/settings', 'Settings_Controller');
 
 
@@ -58,6 +58,8 @@ $router->post('/products/editProduct', 'Product_Controller::editProduct');
 
 $router->post('/sales/addProduct', 'Product_Controller::addProduct');
 $router->post('/sales/editProduct', 'Product_Controller::editProduct');
+$router->post('/sales/checkout', 'Sales_Controller::checkout');
+
 
 
 $router->get('/inventory', 'Inventory');
