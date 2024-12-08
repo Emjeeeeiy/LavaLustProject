@@ -10,11 +10,11 @@
             Username
         </span>
         <!-- Simplified logout button -->
-        <a href="<?= site_url('auth/logout'); ?>" 
+        <!-- <a href="<?= site_url('auth/logout'); ?>" 
            class="text-danger fw-bold" 
            style="text-decoration: none; font-family: 'Poppins', sans-serif; font-size: 1rem;">
             Logout
-        </a>
+        </a> -->
     </div>
 </header>
 

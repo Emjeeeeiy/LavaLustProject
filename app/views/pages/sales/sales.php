@@ -2,33 +2,169 @@
 include APP_DIR . 'views/templates/header.php'; // Include header.php
 ?>
 
+<!-- Include Font Awesome for Icons -->
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<style>
+    /* General body styling */
+    body {
+    background: linear-gradient(to right, #e0e0e0, #ffffff); /* Dark gray to white */
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+h2 {
+    color: #002244; /* Dark navy blue */
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.card {
+    border: none;
+    border-radius: 16px;
+    background: #ffffff; /* White for card background */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.card-body {
+    padding: 20px;
+    color: #333; /* Dark gray text */
+}
+
+.card-title {
+    font-weight: bold;
+    color: #002244; /* Dark navy blue for titles */
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: #555555; /* Medium gray for descriptions */
+}
+
+.add-to-cart {
+    background: #002244; /* Dark navy blue button */
+    color: #ffffff; /* White text */
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease-in-out;
+}
+
+.add-to-cart:hover {
+    background: #001a33; /* Darker navy blue on hover */
+    transform: scale(1.05);
+}
+
+.list-group-item {
+    background: #d6d6d6; /* Light dark gray for cart items */
+    border: none;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    transition: all 0.2s ease-in-out;
+}
+
+.list-group-item:hover {
+    background: #bdbdbd; /* Slightly darker gray on hover */
+}
+
+.list-group-item i {
+    color: #002244; /* Dark navy blue for icons */
+    cursor: pointer;
+}
+
+#total-amount {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #002244; /* Dark navy blue for total */
+}
+
+.btn-success {
+    background-color: #002244; /* Dark navy blue for checkout button */
+    color: white;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 30px;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-success:hover {
+    background-color: #001a33; /* Darker navy blue on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.fade-in {
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+</style>
+
 <body class="bg-light">
 
     <main class="mt-3 pt-3">
         <div class="container">
             <!-- Sales Header -->
             <h2 class="fw-bold text-center mb-4">Point of Sale</h2>
-            <!-- Product Selection and Cart Section -->
+
+            <!-- Search Bar -->
+            <div class="row justify-content-center mb-3">
+                <div class="col-lg-6 col-md-8">
+                    <input type="text" id="search-bar" class="form-control shadow-sm" placeholder="Search for products..." aria-label="Search">
+                </div>
+            </div>
+
             <div class="row justify-content-center">
-                <!-- Product Section (Left Side) -->
-                <div class="col-lg-8 col-md-10 mb-4 ">
-                    <div class="card shadow-lg border-0 rounded-3" style="overflow-y: auto; height: 60vh">
+                <!-- Product Section -->
+                <div class="col-lg-8 col-md-10 mb-4">
+                    <div class="card shadow-lg border-0 rounded-3 overflow-auto" style="height: 60vh;">
                         <div class="card-body">
                             <h4 class="card-title fw-bold text-dark mb-3">Products</h4>
-                            <div class="row">
-                                <!-- Loop through each product and display it -->
+                            <div class="row" id="product-list">
                                 <?php foreach ($products as $product): ?>
-                                    <div class="col-lg-4 col-md-6 mb-3" id="product-<?= $product['id']; ?>">
-                                        <div class="card border-0 rounded-3 shadow-sm">
+                                    <div class="col-lg-4 col-md-6 mb-3 product-card">
+                                        <div class="card border-0 rounded-3 shadow-sm fade-in">
                                             <div class="card-body text-center">
-                                                <h5 class="card-title text-dark"><?= $product['name']; ?></h5>
-                                                <p class="card-text text-muted">$<?= number_format($product['price'], 2); ?></p>
-                                                <p class="card-text text-muted" id="stock-<?= $product['id']; ?>">Stock: <?= $product['stock']; ?></p>
-                                                <button class="btn btn-primary add-to-cart"
+                                                <i class="fas fa-box-open fa-3x mb-3" style="color: #0288d1;"></i>
+                                                <h5 class="card-title product-name"><?= $product['name']; ?></h5>
+                                                <p class="card-text">₱<?= number_format($product['price'], 2); ?></p>
+                                                <p class="card-text" id="stock-<?= $product['id']; ?>"><i class="fas fa-cubes"></i> Stock: <?= $product['stock']; ?></p>
+                                                <button class="add-to-cart"
                                                     data-product-id="<?= $product['id']; ?>"
                                                     data-price="<?= $product['price']; ?>"
                                                     data-name="<?= $product['name']; ?>"
-                                                    data-stock="<?= $product['stock']; ?>">Add to Cart</button>
+                                                    data-stock="<?= $product['stock']; ?>">
+                                                    <i class="fas fa-cart-plus"></i> Add to Cart
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -38,12 +174,12 @@ include APP_DIR . 'views/templates/header.php'; // Include header.php
                     </div>
                 </div>
 
-                <!-- Cart Section (Right Side) -->
                 <div class="col-lg-4 col-md-6">
-                    <div class="card shadow-lg border-0 rounded-3">
+                    <div class="card shadow-lg border-0 rounded-3 fade-in">
                         <div class="card-body">
                             <h4 class="card-title fw-bold text-dark mb-3">Your Cart</h4>
-                            <ul class="list-group" id="cart-items">
+                            <!-- Added max-height and overflow to ul element -->
+                            <ul class="list-group" id="cart-items" style="max-height: 300px; overflow-y: auto;">
                                 <!-- Cart items will be displayed here dynamically -->
                             </ul>
                             <hr>
@@ -51,12 +187,11 @@ include APP_DIR . 'views/templates/header.php'; // Include header.php
                                 <h5 class="fw-bold">Total:</h5>
                                 <p id="total-amount">$0.00</p>
                             </div>
-                            <button class="btn btn-success w-100">Checkout</button>
+                            <button class="btn btn-success w-100 animate__animated animate__pulse">Checkout</button>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </main>
 
@@ -65,7 +200,6 @@ include APP_DIR . 'views/templates/header.php'; // Include header.php
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
     <script>
-        // Script to handle adding products to the cart
         let cart = [];
 
         $(document).on('click', '.add-to-cart', function () {
@@ -79,56 +213,61 @@ include APP_DIR . 'views/templates/header.php'; // Include header.php
                 return;
             }
 
-            // Reduce stock when item is added to cart
             productStock -= 1;
-            $(this).data('stock', productStock); // Update stock data attribute
-            $('#stock-' + productId).text('Stock: ' + productStock); // Update displayed stock
+            $(this).data('stock', productStock);
+            $('#stock-' + productId).text('Stock: ' + productStock).addClass('update-stock');
 
-            // Add product to cart
             cart.push({ id: productId, name: productName, price: productPrice });
-
-            // Update cart display
             updateCart();
         });
 
         function updateCart() {
-            // Update cart items
-            $('#cart-items').empty();
+            $('#cart-items').empty().addClass('fade-in');
             let total = 0;
+
             cart.forEach(item => {
                 total += item.price;
                 $('#cart-items').append(`
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         ${item.name} - $${item.price.toFixed(2)}
-                        <button class="btn btn-sm btn-danger remove-item" data-product-id="${item.id}">Remove</button>
+                        <button class="btn btn-sm btn-danger remove-item" data-product-id="${item.id}">
+                            <i class="fas fa-trash-alt"></i> Remove
+                        </button>
                     </li>
                 `);
             });
 
-            // Update total amount
             $('#total-amount').text('$' + total.toFixed(2));
         }
 
-        // Handle remove item from cart
         $(document).on('click', '.remove-item', function () {
             const productId = $(this).data('product-id');
-            // Find the removed product in the cart
             const removedItemIndex = cart.findIndex(item => item.id === productId);
+
             if (removedItemIndex > -1) {
-                // Increase the stock when an item is removed from the cart
-                const product = cart[removedItemIndex];
                 let productStock = parseInt($('[data-product-id="'+productId+'"]').data('stock'));
                 productStock += 1;
-                $('[data-product-id="'+productId+'"]').data('stock', productStock); // Update stock data attribute
-                $('#stock-' + productId).text('Stock: ' + productStock); // Update displayed stock
+                $('[data-product-id="'+productId+'"]').data('stock', productStock);
+                $('#stock-' + productId).text('Stock: ' + productStock);
 
-                // Remove the item from the cart
                 cart.splice(removedItemIndex, 1);
                 updateCart();
             }
         });
-    </script>
 
+        // Search functionality
+        $('#search-bar').on('keyup', function () {
+            const searchText = $(this).val().toLowerCase();
+            $('.product-card').each(function () {
+                const productName = $(this).find('.product-name').text().toLowerCase();
+                if (productName.includes(searchText)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+
+    </script>
 </body>
 
-</html>

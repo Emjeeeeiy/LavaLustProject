@@ -2,7 +2,7 @@
 defined('PREVENT_DIRECT_ACCESS') or exit('No direct script access allowed');
 
 // In Products_Controller.php
-class Product_Controller extends Controller
+class Orders_Controller extends Controller
 {
     public function __construct()
     {
@@ -22,7 +22,7 @@ class Product_Controller extends Controller
         $products = $this->db->table('products')->get_all();
 
         // Pass products data to the view
-        $this->call->view('pages/products/productslayout', ['products' => $products]);
+        $this->call->view('pages/orders/orderslayout', ['products' => $products]);
     }
 
     // Function to handle adding a new product
@@ -81,25 +81,8 @@ class Product_Controller extends Controller
             // Redirect to the product list after editing
             redirect('products');
         }
-    }
-    public function deleteProduct()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $id = $_POST['id'];
 
-            // Validate the product ID
-            if (empty($id)) {
-                redirect('products');
-                return;
-            }
+        
 
-            // Delete the product
-            $this->db->table('products')->where('id', $id)->delete();
-
-            // Redirect back to the product list with a success message
-            $this->session->set_flashdata('success', 'Product deleted successfully!');
-            redirect('products');
-        }
     }
 }
-?>

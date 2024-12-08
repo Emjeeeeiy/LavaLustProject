@@ -11,9 +11,5 @@ class Product_Model extends Model
         $query = $this->io->get();
         return $query->result_array(); // Return as an array
     }
-
-    
 }
-
-
 ?>

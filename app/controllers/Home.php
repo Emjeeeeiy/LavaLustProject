@@ -25,10 +25,6 @@ class Home extends Controller
         // Pass the user count to the view
         $this->call->view('pages/dashboard/dashboardlayout', ['productCount' => $productCount]);
     }
-
-
-
-
 }
 
 ?>

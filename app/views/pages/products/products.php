@@ -9,6 +9,61 @@
     <title>Products</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Animation for table rows */
+        .table-row {
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+
+        .table-row:nth-child(even) {
+            animation-delay: 0.2s;
+        }
+
+        .table-row:nth-child(odd) {
+            animation-delay: 0.4s;
+        }
+
+        /* Animation for the Add Product button */
+        .btn-animate {
+            opacity: 0;
+            animation: slideIn 1s forwards;
+            animation-delay: 0.5s;
+        }
+
+        /* Simple fade-in animation */
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Animation for the button to slide in */
+        @keyframes slideIn {
+            from {
+                transform: translateX(50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Reduce button size */
+        .btn-smaller {
+            font-size: 0.85rem; /* Smaller text size */
+            padding: 0.25rem 0.5rem; /* Smaller padding */
+        }
+
+        /* Card table styling */
+        .table-container {
+            max-height: 400px; /* Adjust the height as needed */
+            overflow-y: auto; /* Vertical scrolling */
+            overflow-x: auto; /* Horizontal scrolling */
+        }
+    </style>
 </head>
 
 <body>
@@ -21,43 +76,58 @@
                 </div>
                 <div class="col text-end">
                     <!-- Add Product Button triggers modal -->
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">Add
-                        Product</button>
+                    <button class="btn btn-primary btn-smaller btn-animate" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                        Add Product
+                    </button>
                 </div>
             </div>
         </div>
 
         <div class="container mb-4">
             <div class="row">
-                <!-- Table Example -->
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Product Name</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Stock</th>
-                            <th scope="col">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($products as $product): ?>
-                            <tr>
-                                <th scope="row"><?= $product['id'] ?></th>
-                                <td><?= $product['name'] ?></td>
-                                <td>$<?= $product['price'] ?></td>
-                                <td><?= $product['stock'] ?></td>
-                                <td>
-                                    <!-- Edit Product Button triggers modal with product data -->
-                                    <button class="btn btn-info edit-product" data-bs-toggle="modal"
-                                        data-bs-target="#editProductModal" data-id="<?= $product['id'] ?>"
-                                        data-name="<?= $product['name'] ?>" data-price="<?= $product['price'] ?>"
-                                        data-stock="<?= $product['stock'] ?>">Edit</button>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                <!-- Card for displaying table -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Product List</h5>
+                    </div>
+                    <div class="card-body table-container">
+                        <!-- Table Example -->
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Product Name</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Stock</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($products as $product): ?>
+                                    <tr class="table-row">
+                                        <th scope="row"><?= $product['id'] ?></th>
+                                        <td><?= $product['name'] ?></td>
+                                        <td>₱<?= $product['price'] ?></td>
+                                        <td><?= $product['stock'] ?></td>
+                                        <td>
+                                            <!-- Edit Product Button triggers modal with product data -->
+                                            <button class="btn btn-info btn-smaller edit-product" data-bs-toggle="modal"
+                                                data-bs-target="#editProductModal" data-id="<?= $product['id'] ?>"
+                                                data-name="<?= $product['name'] ?>" data-price="<?= $product['price'] ?>"
+                                                data-stock="<?= $product['stock'] ?>">Edit</button>
+                                            
+                                            <!-- Delete Button -->
+                                            <form action="<?= site_url('products/deleteProduct') ?>" method="post" style="display:inline-block;">
+                                                <input type="hidden" name="id" value="<?= $product['id'] ?>">
+                                                <button type="submit" class="btn btn-danger btn-smaller" onclick="return confirm('Are you sure you want to delete this product?')">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -88,7 +158,7 @@
                             <input type="number" class="form-control" id="productStock" name="stock" required>
                         </div>
                         <div class="mb-3 text-end">
-                            <button type="submit" class="btn btn-primary">Add Product</button>
+                            <button type="submit" class="btn btn-primary btn-smaller">Add Product</button>
                         </div>
                     </form>
                 </div>
@@ -122,7 +192,7 @@
                             <input type="number" class="form-control" id="editProductStock" name="stock" required>
                         </div>
                         <div class="mb-3 text-end">
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <button type="submit" class="btn btn-primary btn-smaller">Save Changes</button>
                         </div>
                     </form>
                 </div>

@@ -8,35 +8,9 @@
     <!-- Add Bootstrap CSS CDN -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Add any additional CSS files -->
-     <style>
-      .db-body {
-    position: relative; /* Establish a containing context */
-    font-family: 'Poppins', sans-serif;
-    height: 100vh;
-    overflow: hidden;
-}
-
-.db-body::before {
-    content: "";
-    background: url('<?= base_url(); ?>public/assets/bg.png') no-repeat center center fixed;
-    background-size: cover;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    filter: blur(2px); /* Adjust the blur intensity */
-    z-index: -1; /* Place it behind other content */
-}
-
-.db-body * {
-    position: relative; /* Ensure all content is above the blurred background */
-}
-
-     </style>
 </head>
 
-<body class="bg-light" style="">
+<body class="bg-light">
 
     <!-- Sidebar and content layout -->
     <div class="d-flex" style="min-height: 100vh;">
@@ -44,13 +18,13 @@
         <?php include APP_DIR . 'views/templates/sidebar.php'; ?>
 
         <!-- Main content -->
-        <div class="flex-fill db-body">
+        <div class="flex-fill bg-white">
             <!-- Header -->
-            <?php include APP_DIR . 'views/templates/topbar2.php'; ?>
+            <?php include APP_DIR . 'views/templates/topbar.php'; ?>
 
             <!-- Main content area -->
             <div class="container-fluid p-2" style="max-height: 100vh; overflow-y: auto;">
-                <?php include APP_DIR . 'views/pages/dashboard/dashboard.php'; ?>
+                <?php include APP_DIR . 'views/pages/settings/settings.php'; ?>
             </div>
 
         </div>
