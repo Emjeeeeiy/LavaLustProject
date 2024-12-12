@@ -5,16 +5,12 @@ include APP_DIR . 'views/templates/header.php'; // Include header.php
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Include Font Awesome for Icons -->
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-
 
 <style>
     /* General body styling */
@@ -160,8 +156,7 @@ include APP_DIR . 'views/templates/header.php'; // Include header.php
             <!-- Search Bar -->
             <div class="row justify-content-center mb-3">
                 <div class="col-lg-6 col-md-8">
-                    <input type="text" id="search-bar" class="form-control shadow-sm"
-                        placeholder="Search for products..." aria-label="Search">
+                    <input type="text" id="search-bar" class="form-control shadow-sm" placeholder="Search for products..." aria-label="Search">
                 </div>
             </div>
 
@@ -182,9 +177,7 @@ include APP_DIR . 'views/templates/header.php'; // Include header.php
                                                 <p class="card-text" id="stock-<?= $product['id']; ?>">
                                                     <i class="fas fa-cubes"></i> Stock: <?= $product['stock']; ?>
                                                 </p>
-                                                <button class="add-to-cart" data-product-id="<?= $product['id']; ?>"
-                                                    data-price="<?= $product['price']; ?>" data-name="<?= $product['name']; ?>"
-                                                    data-stock="<?= $product['stock']; ?>">
+                                                <button class="add-to-cart" data-product-id="<?= $product['id']; ?>" data-price="<?= $product['price']; ?>" data-name="<?= $product['name']; ?>" data-stock="<?= $product['stock']; ?>">
                                                     <i class="fas fa-cart-plus"></i> Add to Cart
                                                 </button>
                                             </div>
@@ -221,36 +214,30 @@ include APP_DIR . 'views/templates/header.php'; // Include header.php
                 </div>
             </div>
         </div>
+
+        <!-- Checkout Confirmation Modal -->
+        <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="checkoutModalLabel">Confirm Checkout</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to proceed with the checkout?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-success" id="confirmCheckout">Proceed with Checkout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-
-    <script>
-        $(document).on('click', '.btn-success', function () {
-            if (cart.length === 0) {
-                alert('Your cart is empty! Please add items before checking out.');
-                return;
-            }
-
-            // Collect cart data (product ID, quantity, and total price)
-            const cartData = cart.map(item => ({
-                product_id: item.id,
-                quantity: item.quantity,
-                total_price: item.price * item.quantity
-            }));
-
-            // Prepare data to be sent in hidden form fields
-            $('#product_ids').val(cartData.map(item => item.product_id).join(','));
-            $('#quantities').val(cartData.map(item => item.quantity).join(','));
-            $('#total_prices').val(cartData.map(item => item.total_price).join(','));
-
-            // Submit the form
-            $('#checkout-form').submit();
-        });
-
-    </script>
 
     <script>
         let cart = [];
@@ -292,79 +279,62 @@ include APP_DIR . 'views/templates/header.php'; // Include header.php
                 total += item.price * item.quantity; // Multiply price by quantity
 
                 $('#cart-items').append(`
-       <li class="list-group-item d-flex justify-content-between align-items-center">
-            ${item.name} - ₱${item.price.toFixed(2)} x ${item.quantity}
-            <button class="btn btn-sm btn-danger remove-item" data-product-id="${item.id}">
-                <i class="fas fa-trash-alt"></i> Remove
-            </button>
-        </li>
-        `);
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        ${item.name} - ₱${item.price.toFixed(2)} x ${item.quantity}
+                        <button class="btn btn-sm btn-danger remove-item" data-product-id="${item.id}">
+                            <i class="fas fa-trash-alt"></i> Remove
+                        </button>
+                    </li>
+                `);
             });
 
-            $('#total-amount').text('₱' + total.toFixed(2));
+            $('#total-amount').text(`₱${total.toFixed(2)}`);
         }
 
         $(document).on('click', '.remove-item', function () {
             const productId = $(this).data('product-id');
-            const removedItemIndex = cart.findIndex(item => item.id === productId);
-
-            if (removedItemIndex > -1) {
-                let productStock = parseInt($('[data-product-id="' + productId + '"]').data('stock'));
-                productStock += cart[removedItemIndex].quantity; // Add the quantity of removed product back to stock
-                $('[data-product-id="' + productId + '"]').data('stock', productStock);
-                $('#stock-' + productId).text('Stock: ' + productStock);
-
-                cart.splice(removedItemIndex, 1);
-                updateCart();
-            }
+            cart = cart.filter(item => item.id !== productId);
+            updateCart();
         });
-        $(document).ready(function () {
-            $('#search-bar').on('input', function () {
-                const searchQuery = $(this).val().toLowerCase(); // Get the input and convert to lowercase
 
-                // Loop through each product card and check for matching names
-                $('.product-card').each(function () {
-                    const productName = $(this).data('name'); // Get the data-name attribute
-
-                    if (productName.includes(searchQuery)) {
-                        $(this).show(); // Show product if it matches
-                    } else {
-                        $(this).hide(); // Hide product if it doesn't match
-                    }
-                });
-            });
-        });
+        // Checkout button click handler
         $(document).on('click', '.btn-success', function () {
             if (cart.length === 0) {
                 alert('Your cart is empty! Please add items before checking out.');
                 return;
             }
 
-            // Show confirmation dialog
-            const confirmCheckout = confirm('Are you sure you want to proceed with the checkout?');
-
-            if (confirmCheckout) {
-                // Collect cart data (product ID, quantity, and total price)
-                const cartData = cart.map(item => ({
-                    product_id: item.id,
-                    quantity: item.quantity,
-                    total_price: item.price * item.quantity
-                }));
-
-                // Prepare data to be sent in hidden form fields
-                $('#product_ids').val(cartData.map(item => item.product_id).join(','));
-                $('#quantities').val(cartData.map(item => item.quantity).join(','));
-                $('#total_prices').val(cartData.map(item => item.total_price).join(','));
-
-                // Submit the form
-                $('#checkout-form').submit();
-            } else {
-                // Checkout canceled
-                alert('Checkout was canceled.');
-            }
+            // Show the confirmation modal
+            $('#checkoutModal').modal('show');
         });
 
+        // When user confirms checkout
+        $('#confirmCheckout').on('click', function () {
+            // Collect cart data (product ID, quantity, and total price)
+            const cartData = cart.map(item => ({
+                product_id: item.id,
+                quantity: item.quantity,
+                total_price: item.price * item.quantity
+            }));
+
+            // Prepare data to be sent in hidden form fields
+            $('#product_ids').val(cartData.map(item => item.product_id).join(','));
+            $('#quantities').val(cartData.map(item => item.quantity).join(','));
+            $('#total_prices').val(cartData.map(item => item.total_price).join(','));
+
+            // Submit the form after confirmation
+            $('#checkout-form').submit();
+
+            // Close the modal after submitting
+            $('#checkoutModal').modal('hide');
+        });
+
+        // When user cancels checkout, close the modal
+        $('#checkoutModal').on('hidden.bs.modal', function () {
+            alert('Checkout was canceled.');
+        });
     </script>
+
 </body>
 
 </html>

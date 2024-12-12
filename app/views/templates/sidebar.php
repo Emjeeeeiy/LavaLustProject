@@ -19,15 +19,34 @@
                 <a href="/index.php/orders" class="nav-link py-2">Orders</a>
             </li>
             <!-- Stylish Logout Button -->
-            <a href="<?= site_url('auth/logout'); ?>" 
-            onclick="return confirm('Are you sure you want to log out?');"
-            class="text-white fw-bold px-3 py-2 rounded shadow-sm" 
-            style="text-decoration: none; font-family: 'Poppins', sans-serif; font-size: 1rem; background-color: #dc3545; transition: all 0.3s ease;">
+            <a href="#" 
+                data-bs-toggle="modal" 
+                data-bs-target="#logoutModal"
+                class="text-white fw-bold px-3 py-2 rounded shadow-sm" 
+                style="text-decoration: none; font-family: 'Poppins', sans-serif; font-size: 1rem; background-color: #dc3545; transition: all 0.3s ease;">
                 <i class="fas fa-sign-out-alt me-1"></i> Logout
             </a>
-
         </ul>
     </aside>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to log out?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a href="<?= site_url('auth/logout'); ?>" class="btn btn-danger">Logout</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <style>
