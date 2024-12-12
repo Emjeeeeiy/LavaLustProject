@@ -20,10 +20,12 @@
             </li>
             <!-- Stylish Logout Button -->
             <a href="<?= site_url('auth/logout'); ?>" 
+            onclick="return confirm('Are you sure you want to log out?');"
             class="text-white fw-bold px-3 py-2 rounded shadow-sm" 
             style="text-decoration: none; font-family: 'Poppins', sans-serif; font-size: 1rem; background-color: #dc3545; transition: all 0.3s ease;">
                 <i class="fas fa-sign-out-alt me-1"></i> Logout
             </a>
+
         </ul>
     </aside>
 </div>

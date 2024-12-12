@@ -173,17 +173,17 @@ include APP_DIR . 'views/templates/header.php'; // Include header.php
                             <h4 class="card-title fw-bold text-dark mb-3">Products</h4>
                             <div class="row" id="product-list">
                                 <?php foreach ($products as $product): ?>
-                                    <div class="col-lg-4 col-md-6 mb-3 product-card">
+                                    <div class="col-lg-4 col-md-6 mb-3 product-card" data-name="<?= strtolower($product['name']); ?>">
                                         <div class="card border-0 rounded-3 shadow-sm fade-in">
                                             <div class="card-body text-center">
                                                 <i class="fas fa-box-open fa-3x mb-3" style="color: #0288d1;"></i>
                                                 <h5 class="card-title product-name"><?= $product['name']; ?></h5>
                                                 <p class="card-text">₱<?= number_format($product['price'], 2); ?></p>
-                                                <p class="card-text" id="stock-<?= $product['id']; ?>"><i
-                                                        class="fas fa-cubes"></i> Stock: <?= $product['stock']; ?></p>
+                                                <p class="card-text" id="stock-<?= $product['id']; ?>">
+                                                    <i class="fas fa-cubes"></i> Stock: <?= $product['stock']; ?>
+                                                </p>
                                                 <button class="add-to-cart" data-product-id="<?= $product['id']; ?>"
-                                                    data-price="<?= $product['price']; ?>"
-                                                    data-name="<?= $product['name']; ?>"
+                                                    data-price="<?= $product['price']; ?>" data-name="<?= $product['name']; ?>"
                                                     data-stock="<?= $product['stock']; ?>">
                                                     <i class="fas fa-cart-plus"></i> Add to Cart
                                                 </button>
@@ -293,11 +293,11 @@ include APP_DIR . 'views/templates/header.php'; // Include header.php
 
                 $('#cart-items').append(`
        <li class="list-group-item d-flex justify-content-between align-items-center">
-    ${item.name} - ₱${item.price.toFixed(2)} x ${item.quantity}
-    <button class="btn btn-sm btn-danger remove-item" data-product-id="${item.id}">
-        <i class="fas fa-trash-alt"></i> Remove
-    </button>
-</li>
+            ${item.name} - ₱${item.price.toFixed(2)} x ${item.quantity}
+            <button class="btn btn-sm btn-danger remove-item" data-product-id="${item.id}">
+                <i class="fas fa-trash-alt"></i> Remove
+            </button>
+        </li>
         `);
             });
 
@@ -316,6 +316,51 @@ include APP_DIR . 'views/templates/header.php'; // Include header.php
 
                 cart.splice(removedItemIndex, 1);
                 updateCart();
+            }
+        });
+        $(document).ready(function () {
+            $('#search-bar').on('input', function () {
+                const searchQuery = $(this).val().toLowerCase(); // Get the input and convert to lowercase
+
+                // Loop through each product card and check for matching names
+                $('.product-card').each(function () {
+                    const productName = $(this).data('name'); // Get the data-name attribute
+
+                    if (productName.includes(searchQuery)) {
+                        $(this).show(); // Show product if it matches
+                    } else {
+                        $(this).hide(); // Hide product if it doesn't match
+                    }
+                });
+            });
+        });
+        $(document).on('click', '.btn-success', function () {
+            if (cart.length === 0) {
+                alert('Your cart is empty! Please add items before checking out.');
+                return;
+            }
+
+            // Show confirmation dialog
+            const confirmCheckout = confirm('Are you sure you want to proceed with the checkout?');
+
+            if (confirmCheckout) {
+                // Collect cart data (product ID, quantity, and total price)
+                const cartData = cart.map(item => ({
+                    product_id: item.id,
+                    quantity: item.quantity,
+                    total_price: item.price * item.quantity
+                }));
+
+                // Prepare data to be sent in hidden form fields
+                $('#product_ids').val(cartData.map(item => item.product_id).join(','));
+                $('#quantities').val(cartData.map(item => item.quantity).join(','));
+                $('#total_prices').val(cartData.map(item => item.total_price).join(','));
+
+                // Submit the form
+                $('#checkout-form').submit();
+            } else {
+                // Checkout canceled
+                alert('Checkout was canceled.');
             }
         });
 
