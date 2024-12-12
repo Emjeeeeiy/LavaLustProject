@@ -11,8 +11,10 @@ include APP_DIR . 'views/templates/header.php'; // Include header.php
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+
 
 <style>
     /* General body styling */
@@ -226,25 +228,31 @@ include APP_DIR . 'views/templates/header.php'; // Include header.php
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
     <script>
-        $(document).ready(function () {
-            // Real-time search functionality
-            $('#search-bar').on('input', function () {
-                const searchTerm = $(this).val().toLowerCase();
+        $(document).on('click', '.btn-success', function () {
+            if (cart.length === 0) {
+                alert('Your cart is empty! Please add items before checking out.');
+                return;
+            }
 
-                // Loop through each product card
-                $('#product-list .product-card').each(function () {
-                    const productName = $(this).find('.product-name').text().toLowerCase();
+            // Collect cart data (product ID, quantity, and total price)
+            const cartData = cart.map(item => ({
+                product_id: item.id,
+                quantity: item.quantity,
+                total_price: item.price * item.quantity
+            }));
 
-                    // If product name contains search term, show it, otherwise hide it
-                    if (productName.includes(searchTerm)) {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
-                    }
-                });
-            });
+            // Prepare data to be sent in hidden form fields
+            $('#product_ids').val(cartData.map(item => item.product_id).join(','));
+            $('#quantities').val(cartData.map(item => item.quantity).join(','));
+            $('#total_prices').val(cartData.map(item => item.total_price).join(','));
+
+            // Submit the form
+            $('#checkout-form').submit();
         });
 
+    </script>
+
+    <script>
         let cart = [];
 
         $(document).on('click', '.add-to-cart', function () {
@@ -285,11 +293,11 @@ include APP_DIR . 'views/templates/header.php'; // Include header.php
 
                 $('#cart-items').append(`
        <li class="list-group-item d-flex justify-content-between align-items-center">
-            ${item.name} - ₱${item.price.toFixed(2)} x ${item.quantity}
-            <button class="btn btn-sm btn-danger remove-item" data-product-id="${item.id}">
-                <i class="fas fa-trash-alt"></i> Remove
-            </button>
-        </li>
+    ${item.name} - ₱${item.price.toFixed(2)} x ${item.quantity}
+    <button class="btn btn-sm btn-danger remove-item" data-product-id="${item.id}">
+        <i class="fas fa-trash-alt"></i> Remove
+    </button>
+</li>
         `);
             });
 
@@ -310,6 +318,7 @@ include APP_DIR . 'views/templates/header.php'; // Include header.php
                 updateCart();
             }
         });
+
     </script>
 </body>
 
