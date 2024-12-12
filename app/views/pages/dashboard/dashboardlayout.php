@@ -10,28 +10,25 @@
     <!-- Add any additional CSS files -->
      <style>
       .db-body {
-    position: relative; /* Establish a containing context */
-    font-family: 'Poppins', sans-serif;
-    height: 100vh;
-    overflow: hidden;
-}
+            position: relative; /* Establish a containing context */
+            font-family: 'Poppins', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+        }
 
-.db-body::before {
-    content: "";
-    background: url('<?= base_url(); ?>public/assets/bg.png') no-repeat center center fixed;
-    background-size: cover;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    filter: blur(2px); /* Adjust the blur intensity */
-    z-index: -1; /* Place it behind other content */
-}
+        .db-body::before {
+            content: "";
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            filter: blur(2px); /* Adjust the blur intensity */
+            z-index: -1; /* Place it behind other content */
+        }
 
-.db-body * {
-    position: relative; /* Ensure all content is above the blurred background */
-}
+        .db-body * {
+            position: relative; /* Ensure all content is above the blurred background */
+        }
 
      </style>
 </head>
@@ -46,7 +43,7 @@
         <!-- Main content -->
         <div class="flex-fill db-body">
             <!-- Header -->
-            <?php include APP_DIR . 'views/templates/topbar2.php'; ?>
+            <?php include APP_DIR . 'views/templates/topbar.php'; ?>
 
             <!-- Main content area -->
             <div class="container-fluid p-2" style="max-height: 100vh; overflow-y: auto;">

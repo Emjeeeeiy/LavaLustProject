@@ -20,7 +20,7 @@
         <!-- Main content -->
         <div class="flex-fill bg-white">
             <!-- Header -->
-            <?php include APP_DIR . 'views/templates/topbar2.php'; ?>
+            <?php include APP_DIR . 'views/templates/topbar.php'; ?>
 
             <!-- Main content area -->
             <div class="container-fluid p-2" style="max-height: 100vh; overflow-y: auto;">

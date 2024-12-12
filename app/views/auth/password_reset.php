@@ -13,81 +13,85 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-        body {
-            background: #f5f5f5;
-            font-family: 'Poppins', sans-serif;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0;
-        }
+    body {
+        background: url('<?= base_url(); ?>public/assets/bg_login.png') no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Poppins', sans-serif;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+    }
+    .card {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        animation: fadeIn 0.8s ease-in-out;
+        backdrop-filter: blur(10px); /* Blur effect */
+        background: rgba(255, 255, 255, 0.3); /* Semi-transparent white */
+    }
 
-        .card {
-            border: none;
-            border-radius: 16px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            animation: fadeIn 0.8s ease-in-out;
-        }
+    .card-header {
+        background: rgba(108, 117, 125, 0.6); /* Semi-transparent dark gray */
+        color: #fff;
+        text-align: center;
+        font-size: 1.8rem;
+        font-weight: 600;
+        padding: 20px;
+        backdrop-filter: blur(10px); /* Ensure blur effect on header */
+    }
 
-        .card-header {
-            background: #6c757d;
-            color: #fff;
-            text-align: center;
-            font-size: 1.8rem;
-            font-weight: 600;
-            padding: 20px;
-        }
+    .card-body {
+        background: rgba(255, 255, 255, 0.3); /* Matching semi-transparent background */
+        padding: 30px;
+    }
 
-        .card-body {
-            background: #ffffff;
-            padding: 30px;
-        }
+    .form-control {
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        padding: 12px;
+    }
 
-        .form-control {
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            padding: 12px;
-        }
+    .btn-primary {
+        border-radius: 8px;
+        padding: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        background: #343a40;
+        border: none;
+        width: 100%;
+        color: #fff;
+        transition: background-color 0.3s ease;
+    }
 
-        .btn-primary {
-            border-radius: 8px;
-            padding: 12px;
-            font-size: 1rem;
-            font-weight: 600;
-            background: #343a40;
-            border: none;
-            width: 100%;
-            color: #fff;
-            transition: background-color 0.3s ease;
-        }
+    .btn-primary:hover {
+        background: #495057;
+    }
 
-        .btn-primary:hover {
-            background: #495057;
-        }
+    .invalid-feedback, .valid-feedback {
+        display: none;
+        font-size: 0.875rem;
+        color: #e74c3c;
+    }
 
-        .invalid-feedback, .valid-feedback {
-            display: none;
-            font-size: 0.875rem;
-            color: #e74c3c;
-        }
+    .valid-feedback {
+        color: #28a745;
+    }
 
-        .valid-feedback {
-            color: #28a745;
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
         }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
 </head>
 <body>
     <div class="container">
@@ -97,6 +101,7 @@
                     <div class="card-header">
                         Reset Password
                     </div>
+                    <?php include APP_DIR.'views/templates/nav_auth.php';?>
                     <div class="card-body">
                         <form method="POST" action="<?=site_url('auth/password-reset');?>">
                             <?php csrf_field(); ?>
@@ -117,7 +122,6 @@
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary">Send Password Reset Link</button>
                             </div>
-                            <?php include APP_DIR.'views/templates/nav_auth.php';?>
                         </form>
                     </div>
                 </div>

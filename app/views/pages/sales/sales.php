@@ -11,10 +11,8 @@ include APP_DIR . 'views/templates/header.php'; // Include header.php
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-
 
 <style>
     /* General body styling */
@@ -69,11 +67,10 @@ include APP_DIR . 'views/templates/header.php'; // Include header.php
         /* Medium gray for descriptions */
     }
 
+    /* Modify Add to Cart Button */
     .add-to-cart {
-        background: #002244;
-        /* Dark navy blue button */
-        color: #ffffff;
-        /* White text */
+        background: #333333; /* Solid dark gray */
+        color: #ffffff; /* White text */
         border-radius: 25px;
         padding: 10px 20px;
         font-weight: bold;
@@ -84,8 +81,7 @@ include APP_DIR . 'views/templates/header.php'; // Include header.php
     }
 
     .add-to-cart:hover {
-        background: #001a33;
-        /* Darker navy blue on hover */
+        background: #2c2c2c; /* Slightly darker gray on hover */
         transform: scale(1.05);
     }
 
@@ -120,10 +116,10 @@ include APP_DIR . 'views/templates/header.php'; // Include header.php
         /* Dark navy blue for total */
     }
 
+    /* Modify Checkout Button */
     .btn-success {
-        background-color: #002244;
-        /* Dark navy blue for checkout button */
-        color: white;
+        background-color: #dc3545; /* Red background */
+        color: white; /* White text */
         font-weight: bold;
         padding: 12px;
         border-radius: 30px;
@@ -131,8 +127,7 @@ include APP_DIR . 'views/templates/header.php'; // Include header.php
     }
 
     .btn-success:hover {
-        background-color: #001a33;
-        /* Darker navy blue on hover */
+        background-color: #c82333; /* Darker red on hover */
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
     }
 
@@ -231,35 +226,25 @@ include APP_DIR . 'views/templates/header.php'; // Include header.php
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
     <script>
-        $(document).on('click', '.btn-success', function () {
-            if (cart.length === 0) {
-                alert('Your cart is empty! Please add items before checking out.');
-                return;
-            }
+        $(document).ready(function () {
+            // Real-time search functionality
+            $('#search-bar').on('input', function () {
+                const searchTerm = $(this).val().toLowerCase();
 
-            // Collect cart data (product ID, quantity, and total price)
-            const cartData = cart.map(item => ({
-                product_id: item.id,
-                quantity: item.quantity,
-                total_price: item.price * item.quantity
-            }));
+                // Loop through each product card
+                $('#product-list .product-card').each(function () {
+                    const productName = $(this).find('.product-name').text().toLowerCase();
 
-            // Prepare data to be sent in hidden form fields
-            $('#product_ids').val(cartData.map(item => item.product_id).join(','));
-            $('#quantities').val(cartData.map(item => item.quantity).join(','));
-            $('#total_prices').val(cartData.map(item => item.total_price).join(','));
-
-            // Submit the form
-            $('#checkout-form').submit();
+                    // If product name contains search term, show it, otherwise hide it
+                    if (productName.includes(searchTerm)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
         });
 
-
-
-
-
-    </script>
-
-    <script>
         let cart = [];
 
         $(document).on('click', '.add-to-cart', function () {
@@ -300,16 +285,15 @@ include APP_DIR . 'views/templates/header.php'; // Include header.php
 
                 $('#cart-items').append(`
        <li class="list-group-item d-flex justify-content-between align-items-center">
-    ${item.name} - $${item.price.toFixed(2)} x ${item.quantity}
-    <button class="btn btn-sm btn-danger remove-item" data-product-id="${item.id}">
-        <i class="fas fa-trash-alt"></i> Remove
-    </button>
-</li>
-
+            ${item.name} - ₱${item.price.toFixed(2)} x ${item.quantity}
+            <button class="btn btn-sm btn-danger remove-item" data-product-id="${item.id}">
+                <i class="fas fa-trash-alt"></i> Remove
+            </button>
+        </li>
         `);
             });
 
-            $('#total-amount').text('$' + total.toFixed(2));
+            $('#total-amount').text('₱' + total.toFixed(2));
         }
 
         $(document).on('click', '.remove-item', function () {
@@ -326,7 +310,6 @@ include APP_DIR . 'views/templates/header.php'; // Include header.php
                 updateCart();
             }
         });
-
     </script>
 </body>
 

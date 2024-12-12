@@ -2,19 +2,13 @@
     <a class="navbar-brand d-flex align-items-center" href="/dashboard" style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1.2rem;">
         <img src="<?= base_url(); ?>public/assets/logo.png" alt="Logo" class="rounded-circle me-2" 
             style="width: 40px; height: 40px;">
-        <span class="text-dark">Dashboard</span>
+        <!-- <span class="text-dark">Dashboard</span> -->
     </a>
 
     <div class="ms-auto d-flex align-items-center">
         <span class="text-dark fw-semibold me-3" style="font-family: 'Poppins', sans-serif; font-size: 1rem;">
-            Username
+            Welcome
         </span>
-        <!-- Simplified logout button -->
-        <a href="<?= site_url('auth/logout'); ?>" 
-           class="text-danger fw-bold" 
-           style="text-decoration: none; font-family: 'Poppins', sans-serif; font-size: 1rem;">
-            Logout
-        </a>
     </div>
 </header>
 
