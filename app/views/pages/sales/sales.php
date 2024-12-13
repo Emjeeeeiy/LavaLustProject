@@ -308,6 +308,25 @@ include APP_DIR . 'views/templates/header.php'; // Include header.php
             $('#checkoutModal').modal('show');
         });
 
+        $(document).ready(function() {
+            // Search functionality
+            $('#search-bar').on('keyup', function() {
+                let searchTerm = $(this).val().toLowerCase(); // Get the search term and convert it to lowercase
+
+                $('.product-card').each(function() {
+                    const productName = $(this).data('name').toLowerCase(); // Get the product name and convert it to lowercase
+
+                    // Check if the product name includes the search term
+                    if (productName.includes(searchTerm)) {
+                        $(this).show(); // Show product card if it matches
+                    } else {
+                        $(this).hide(); // Hide product card if it doesn't match
+                    }
+                });
+            });
+        });
+
+
         // When user confirms checkout
         $('#confirmCheckout').on('click', function () {
             // Collect cart data (product ID, quantity, and total price)
@@ -336,5 +355,4 @@ include APP_DIR . 'views/templates/header.php'; // Include header.php
     </script>
 
 </body>
-
 </html>
