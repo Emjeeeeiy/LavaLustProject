@@ -1,3 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar with Icons</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="background-color: #222;">
+
 <div class="card" style="width: 250px; height: 95vh; background-color: #333333; border: none; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
     <aside class="p-4">
         <h4 class="mb-4 text-center" 
@@ -7,22 +20,30 @@
         </h4>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a href="/index.php/dashboard" class="nav-link py-2">Dashboard</a>
+                <a href="/index.php/dashboard" class="nav-link py-2">
+                    <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                </a>
             </li>
             <li class="nav-item">
-                <a href="/index.php/products" class="nav-link py-2">Products</a>
+                <a href="/index.php/products" class="nav-link py-2">
+                    <i class="fas fa-box-open me-2"></i> Products
+                </a>
             </li>
             <li class="nav-item">
-                <a href="/index.php/sales" class="nav-link py-2">Sales</a>
+                <a href="/index.php/sales" class="nav-link py-2">
+                    <i class="fas fa-chart-line me-2"></i> Sales
+                </a>
             </li>
             <li class="nav-item">
-                <a href="/index.php/orders" class="nav-link py-2">Orders</a>
+                <a href="/index.php/orders" class="nav-link py-2">
+                    <i class="fas fa-shopping-cart me-2"></i> Orders
+                </a>
             </li>
             <!-- Stylish Logout Button -->
             <a href="#" 
                 data-bs-toggle="modal" 
                 data-bs-target="#logoutModal"
-                class="text-white fw-bold px-3 py-2 rounded shadow-sm" 
+                class="text-white fw-bold px-3 py-2 rounded shadow-sm d-block text-center" 
                 style="text-decoration: none; font-family: 'Poppins', sans-serif; font-size: 1rem; background-color: #dc3545; transition: all 0.3s ease;">
                 <i class="fas fa-sign-out-alt me-1"></i> Logout
             </a>
@@ -30,7 +51,7 @@
     </aside>
 </div>
 
-<!-- Modal -->
+<!-- Logout Confirmation Modal -->
 <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -48,6 +69,10 @@
         </div>
     </div>
 </div>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
 
 <style>
     .nav-link {
@@ -78,3 +103,6 @@
         margin: 10px; /* Add some outer spacing */
     }
 </style>
+
+</body>
+</html>
